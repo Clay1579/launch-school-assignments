@@ -1,0 +1,32 @@
+1)
+Casual: return the sum of 2 integers
+Formal:
+
+START
+
+SET number1
+SET number2
+SET answer = number1 and number2
+PRINT answer
+
+END
+
+2)
+Casual: return an array of strings combined
+Formal:
+
+START
+
+PRINT array
+
+END
+
+3)
+Casual: for each integer in the array return a new array
+Formal:
+
+START
+
+PRINT each
+
+end
