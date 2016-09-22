@@ -17,6 +17,7 @@ def operation_to_message(op)
   when '4'
     'Dividing'
   end
+end
 
 prompt("Welcome to the calculator. Enter your name.")
 
@@ -46,7 +47,7 @@ loop do # main loop
     if valid_number?(number1)
       break
     else
-      puts "hm... that doesn't look like a valid number"
+      prompt("hm... that doesn't look like a valid number")
     end
   end
 
@@ -57,7 +58,7 @@ loop do # main loop
     if valid_number?(number2)
       break
     else
-      puts "hm... that doesn't look like a valid number"
+      prompt("hm... that doesn't look like a valid number")
     end
   end
 
@@ -99,7 +100,7 @@ loop do # main loop
   prompt("do you want to perform another calculation? y to confirm")
   answer = Kernel.gets.chomp
 
-  break unless answer.downcase.startwith?("y")
+  break unless answer.downcase.start_with?("y")
 
 end
 
