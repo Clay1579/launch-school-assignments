@@ -1,21 +1,20 @@
-VALID_CHOICES = %w(r p sc l sp)
-ABBREVIATION_TRANSLATION = %w(rock paper scissors lizard spock)
+
+VALID_CHOICES = { r: 'rock', p: 'paper', sc: 'scissors',
+                  l: 'lizard', sp: 'spock' }
+
+WINNING_CONDITIONS = { r: %w(sc l), p: %w(r sp), sc: %w(p l),
+                       l: %w(p sp), sp: %w(r sc) }
 
 def prompt(message)
   puts "=> #{message}"
 end
 
 def win?(first, second)
-  (first == 'r' && second == 'sc') ||
-    (first == 'sc' && second == 'p') ||
-    (first == 'p' && second == 'r') ||
-    (first == 'r' && second == 'l') ||
-    (first == 'l' && second == 'sp') ||
-    (first == 'sp' && second == 'sc') ||
-    (first == 'sc' && second == 'l') ||
-    (first == 'l' && second == 'p') ||
-    (first == 'p' && second == 'sp') ||
-    (first == 'sp' && second == 'r')
+  if WINNING_CONDITIONS[first.to_sym].include? second.to_s
+    true
+  else
+    false
+  end
 end
 
 def display_result(player, computer)
@@ -29,14 +28,12 @@ def display_result(player, computer)
 end
 
 def choices
-  current = 0
-  loop do
-    prompt("#{VALID_CHOICES[current]} = #{ABBREVIATION_TRANSLATION[current]}")
-    current += 1
-    break if current >= 5
+  VALID_CHOICES.each do |key, value|
+    puts "#{key} = #{value}"
   end
 end
 
+<<<<<<< HEAD
 def translate
   choose = {r: "rock", p: "paper", sc: "scissors", l: "lizard", sp: "spock"}
   if choose.has_key?(:rock)
@@ -47,36 +44,45 @@ end
 translate
 
 def score(player, computer)
+=======
+def translate(thing)
+  VALID_CHOICES[thing.to_sym].to_s
+end
+
+def score(player, computer, scores)
+>>>>>>> 4b25e172c85a953b9ec577da07cbaa87472d43e4
   if win?(player, computer)
-    increment_player_score()
+    scores[:player_score] += 1
   elsif win?(computer, player)
-    increment_computer_score()
+    scores[:computer_score] += 1
   end
-end
-
-def increment_player_score
-  $player_score += 1
-end
-
-def increment_computer_score
-  $computer_score += 1
 end
 
 def timer
-  b = 4
-  loop do
-    prompt("next round will start in #{b} seconds")
+  seconds = 4
+  4.times do
+    prompt("next round will start in #{seconds} seconds")
     sleep(1)
-    b -= 1
-    break if b.zero?
+    seconds -= 1
   end
 end
 
+def another_game
+  play_again = ''
+  loop do
+    play_again = gets.chomp.downcase
+    break if play_again == 'y' || play_again == 'n'
+    prompt("you must answer 'y' or 'n'")
+  end
+  play_again
+end
+
 choice = ''
+scores = { player_score: 0, computer_score: 0 }
 
 loop do
-  $player_score = 0
-  $computer_score = 0
+  scores[:player_score] = 0
+  scores[:computer_score] = 0
   round = 0
 
   loop do
@@ -84,10 +90,10 @@ loop do
     round += 1
     puts("----------round #{round}----------")
     choices()
-    prompt("Choose one: #{VALID_CHOICES.join(', ')}")
+    prompt("Choose one: #{VALID_CHOICES.values.join(', ')}")
 
     loop do
-      choice = gets.chomp.downcase
+      choice = gets.chomp.downcase.to_sym
 
       if VALID_CHOICES.include?(choice)
         break
@@ -96,28 +102,30 @@ loop do
       end
     end
 
-    computer_choice = VALID_CHOICES.sample
+    computer_choice = VALID_CHOICES.keys.sample.to_sym
 
-    prompt("You chose #{translate(choice)}; computer chose #{translate(computer_choice)}")
+    prompt("You chose: #{translate(choice)}")
+    prompt("computer chose: #{translate(computer_choice)}")
 
     display_result(choice, computer_choice)
-    score(choice, computer_choice)
+    score(choice, computer_choice, scores)
 
-    prompt("your score is #{$player_score}; the computer's score is #{$computer_score}")
+    prompt("your score is: #{scores[:player_score]}")
+    prompt("the computer's score is #{scores[:computer_score]}")
 
-    break if $player_score == 5 || $computer_score == 5
+    break if scores[:player_score] == 5 || scores[:computer_score] == 5
     timer
   end
 
-  if $player_score >= $computer_score
+  if scores[:player_score] >= scores[:computer_score]
     prompt("you win the game!")
   else
     prompt("You lose the game!")
   end
 
-  prompt("would you like to play again? y to confirm")
-  play_again = gets.chomp.downcase
-  break if play_again != 'y'
+  prompt("would you like to play again? y to confirm, n to cancel")
+
+  break if another_game == 'n'
 end
 
 prompt("Thanks for playing!")
