@@ -37,21 +37,14 @@ def choices
   end
 end
 
-def translate(thing)
-  a = case thing
-      when 'r'
-        'rock'
-      when 'p'
-        'paper'
-      when 'sc'
-        'scissors'
-      when 'l'
-        'lizard'
-      when 'sp'
-        'spock'
-      end
-  a
+def translate
+  choose = {r: "rock", p: "paper", sc: "scissors", l: "lizard", sp: "spock"}
+  if choose.has_key?(:rock)
+    prompt(choose[:rock])
+  end  
 end
+
+translate
 
 def score(player, computer)
   if win?(player, computer)
