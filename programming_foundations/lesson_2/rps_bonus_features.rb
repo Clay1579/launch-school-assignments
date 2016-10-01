@@ -33,7 +33,6 @@ def choices
   end
 end
 
-<<<<<<< HEAD
 def translate
   choose = {r: "rock", p: "paper", sc: "scissors", l: "lizard", sp: "spock"}
   if choose.has_key?(:rock)
@@ -44,13 +43,12 @@ end
 translate
 
 def score(player, computer)
-=======
+
 def translate(thing)
   VALID_CHOICES[thing.to_sym].to_s
 end
 
 def score(player, computer, scores)
->>>>>>> 4b25e172c85a953b9ec577da07cbaa87472d43e4
   if win?(player, computer)
     scores[:player_score] += 1
   elsif win?(computer, player)
