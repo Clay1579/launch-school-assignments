@@ -42,8 +42,6 @@ end
 
 translate
 
-def score(player, computer)
-
 def translate(thing)
   VALID_CHOICES[thing.to_sym].to_s
 end
