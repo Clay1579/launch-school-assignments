@@ -62,7 +62,7 @@ loop do # main loop
     end
   end
 
-  operator_string <<-MSG
+  operator_string = <<-MSG
   What operation would you like to perform?
   1) add
   2) subtract
